@@ -21,7 +21,7 @@ spec:
       initContainers:
         - name: counter-app-init
           image: alpine
-          command: ['wget', 'https://forge.univ-lyon1.fr/vladimir.ostapenco/counter-application/-/raw/main/index.php', '-O', '/var/www/html/index.php']
+          command: ["sh", "-c", "minikube cp index.php /var/www/html/index.php"]
           volumeMounts:
             - name: counter-app
               mountPath: /var/www/html
