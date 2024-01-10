@@ -18,16 +18,19 @@ spec:
         - name: redis-data
           persistentVolumeClaim:
             claimName: redis-pvc
+        - name: www
+          emptyDir: {}
+      initContainers:
+        - name: init-nginx
+          image: busybox
+          command: ["sh", "-c", "echo Init container"]
+          volumeMounts:
+            - mountPath: "/www"
+              name: www
       containers:
         - name: redis-config-init
           image: busybox
-          command: ["sh", "-c", "echo requirepass $PASSWORD > /etc/redis/redis.conf"]
-          env:
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: redis-secret
-                  key: password
+          command: ["sh", "-c", "echo Redis config init container"]
           volumeMounts:
             - name: redis-config
               mountPath: /etc/redis/
